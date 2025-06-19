@@ -9,6 +9,7 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+
   modules: [
     "@nuxt/content",
     "@nuxt/eslint",
@@ -18,6 +19,7 @@ export default defineNuxtConfig({
     "@nuxt/scripts",
     "@nuxt/test-utils",
     "@nuxt/ui",
+    "@nuxtjs/google-fonts",
   ],
   app: {
     pageTransition: { name: "page", mode: "out-in" },
@@ -26,7 +28,15 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       routes: ["/"],
-      ignore: ["/blog", "/blog/**"],
+      // ignore: ["/blog", "/blog/**"],
     },
+  },
+
+  googleFonts: {
+    families: {
+      Inter: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+    },
+    display: "swap",
+    preconnect: true,
   },
 });

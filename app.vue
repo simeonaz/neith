@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="max-w-screen-xl mx-auto min-h-svh relative">
     <NoScript />
     <NuxtLoadingIndicator />
     <NuxtRouteAnnouncer />
     <AppHeader />
-    <NuxtPage />
+    <NuxtPage class="pt-[56px] lg:pt-[66px]" />
   </div>
 </template>
 
