@@ -12,10 +12,10 @@
         <div
           class="flex flex-col space-y-[8px] items-center justify-center text-[#0D141C]"
         >
-          <h3 class="font-bold text-[18px] tracking-[0px] leading-[21px]">
+          <h3 class="font-bold text-[18px] tracking-[0px] leading-[21px] text-center">
             Check if a link is safe
           </h3>
-          <p class="font-normal text-[14px] tracking-[0px] leading-[21px]">
+          <p class="font-normal text-[14px] tracking-[0px] leading-[21px] text-center">
             Paste any link to analyze its trust level in seconds.
           </p>
         </div>

@@ -13,52 +13,58 @@ const toggleMobileMenu = () => {
 
 <template>
   <header
-    class="fixed top-0 inset-x-0 h-[55px] lg:h-[65px] flex justify-between items-center px-[25px] lg:px-[40px] bg-white text-[#0D141C]"
+    class="fixed top-0 inset-x-0 h-[55px] lg:h-[65px] bg-white text-[#0D141C] z-50"
   >
-    <div class="space-x-[12px] flex items-center">
-      <img src="@/assets/img/logo.svg" alt="Logo" class="size-[16px]">
-
-      <NuxtLink class="text-[18px] font-bold tracking-[0px] leading-[23px]" to="/">Neith</NuxtLink>
-    </div>
-
-    <!-- Desktop links -->
     <div
-      class="hidden md:flex items-center space-x-[36px] text-[14px] leading-[0px] tracking-[0px] font-medium"
+      class="max-w-screen-xl mx-auto flex justify-between items-center px-[25px] lg:px-[40px] h-full"
     >
-      <NuxtLink v-for="(link, i) in links" :key="i" :to="link.path">{{
-        link.name
-      }}</NuxtLink>
+      <div class="space-x-[12px] flex items-center">
+        <img src="@/assets/img/logo.svg" alt="Logo" class="size-[16px]" />
+        <NuxtLink
+          class="text-[18px] font-bold tracking-[0px] leading-[23px]"
+          to="/"
+          >Neith</NuxtLink
+        >
+      </div>
 
-      <button
-        class="w-[86px] h-[40px] rounded-full flex items-center justify-center bg-gray-300 cursor-pointer text-[14px] font-bold text-[#0D141C]"
+      <!-- Desktop links -->
+      <div
+        class="hidden md:flex items-center space-x-[36px] text-[14px] leading-[0px] tracking-[0px] font-medium"
       >
-        Log In
+        <NuxtLink v-for="(link, i) in links" :key="i" :to="link.path">
+          {{ link.name }}
+        </NuxtLink>
+        <button
+          class="w-[86px] h-[40px] rounded-full flex items-center justify-center bg-gray-300 cursor-pointer text-[14px] font-bold text-[#0D141C]"
+        >
+          Log In
+        </button>
+      </div>
+
+      <!-- Mobile hamburger -->
+      <button
+        class="md:hidden flex items-center justify-center p-2 cursor-pointer"
+        aria-label="Open menu"
+        @click="toggleMobileMenu"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-align-justify-icon lucide-align-justify"
+        >
+          <path d="M3 12h18" />
+          <path d="M3 18h18" />
+          <path d="M3 6h18" />
+        </svg>
       </button>
     </div>
-
-    <!-- Mobile hamburger -->
-    <button
-      class="md:hidden flex items-center justify-center p-2 cursor-pointer"
-      aria-label="Open menu"
-      @click="toggleMobileMenu"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        class="lucide lucide-align-justify-icon lucide-align-justify"
-      >
-        <path d="M3 12h18" />
-        <path d="M3 18h18" />
-        <path d="M3 6h18" />
-      </svg>
-    </button>
 
     <!-- Mobile menu overlay -->
     <div
@@ -110,6 +116,5 @@ const toggleMobileMenu = () => {
         Log In
       </button>
     </nav>
-    <!-- </div> -->
   </header>
 </template>
