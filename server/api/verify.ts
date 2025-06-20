@@ -63,7 +63,7 @@ export default defineEventHandler(async (event) => {
   );
 
   const data = await response.json();
-  console.log("Response from Google Safe Browsing API:", data);
+  // console.log("Response from Google Safe Browsing API:", data);
 
   //   if no matches are found, return safe status
   if (!data.matches) {
