@@ -39,4 +39,8 @@ export default defineNuxtConfig({
     display: "swap",
     preconnect: true,
   },
+
+  runtimeConfig: {
+    googleSafeBrowsingApiKey: process.env.GOOGLE_SAFE_BROWSING_API_KEY || "",
+  },
 });

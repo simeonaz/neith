@@ -5,6 +5,7 @@
     <NuxtRouteAnnouncer />
     <AppHeader />
     <NuxtPage class="pt-[56px] lg:pt-[66px]" />
+    <AppFooter />
   </div>
 </template>
 
