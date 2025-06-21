@@ -28,8 +28,8 @@ const handleSubmit = async () => {
           url: linkToCheck.value.trim(),
         },
       });
-      //   console.log(data.value);
-      verifiedLinks.value.push(data.value);
+      // Place data.value at the beginning of the array
+      verifiedLinks.value.unshift(data.value);
     } catch (error: unknown) {
       showError.value = true;
       console.error(error);
@@ -123,7 +123,7 @@ const handleSubmit = async () => {
 
         <div v-else>
           <LinkResult
-            v-for="(link, i) in verifiedLinks.reverse()"
+            v-for="(link, i) in verifiedLinks"
             :key="i"
             :verified-link="link"
           />
