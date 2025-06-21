@@ -123,7 +123,7 @@ const handleSubmit = async () => {
 
         <div v-else>
           <LinkResult
-            v-for="(link, i) in verifiedLinks"
+            v-for="(link, i) in verifiedLinks.reverse()"
             :key="i"
             :verified-link="link"
           />

@@ -106,8 +106,11 @@ const cancelOpen = () => {
           </defs>
         </svg>
       </div>
-      <div class="flex flex-col">
-        <div class="text-[16px] font-medium tracking-[0px] leading-[24px]">
+      <div class="flex flex-col max-w-[60vw] overflow-hidden">
+        <div
+          class="text-[16px] font-medium tracking-[0px] leading-[24px] truncate"
+          :title="verifiedLink?.url"
+        >
           {{ verifiedLink?.url }}
         </div>
         <div
