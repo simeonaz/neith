@@ -97,7 +97,7 @@ useHead({
         class="relative w-full"
         autocomplete="off"
         aria-label="Check a link form"
-        @submit.prevent="handleSubmit"
+        @submit.prevent
       >
         <button
           class="absolute left-3 inset-y-0 cursor-pointer"
