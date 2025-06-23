@@ -139,6 +139,29 @@ useHead({
           aria-label="Paste link here"
           @keyup.enter="handleSubmit"
         />
+        <button
+          v-if="linkToCheck"
+          type="button"
+          class="absolute right-3 inset-y-0 flex items-center justify-center text-[#4F7396] focus:outline-none cursor-pointer"
+          @click="linkToCheck = ''"
+          aria-label="Clear input"
+          tabindex="0"
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M6 6L14 14M14 6L6 14"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
         <div
           v-if="showError === true"
           class="absolute left-0 top-full mt-2 text-red-500 text-sm"
