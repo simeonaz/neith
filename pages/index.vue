@@ -1,3 +1,33 @@
+<script setup lang="ts">
+// SEO for the homepage
+useHead({
+  title: "Check if a link is safe | Neith",
+  meta: [
+    {
+      name: "description",
+      content:
+        "Instantly analyze the trustworthiness of any link with Neith. Protect yourself from suspicious links and online scams.",
+    },
+    {
+      name: "viewport",
+      content: "width=device-width, initial-scale=1",
+    },
+    {
+      property: "og:title",
+      content: "Check if a link is safe | Neith",
+    },
+    {
+      property: "og:description",
+      content: "Instantly analyze the trustworthiness of any link with Neith.",
+    },
+    {
+      property: "og:type",
+      content: "website",
+    },
+  ],
+});
+</script>
+
 <template>
   <main
     class="px-[20px] md:px-[40px] lg:px-[160px] py-[20px] flex flex-col"
@@ -37,33 +67,3 @@
     </div>
   </main>
 </template>
-
-<script setup lang="ts">
-// SEO for the homepage
-useHead({
-  title: "Check if a link is safe | Neith",
-  meta: [
-    {
-      name: "description",
-      content:
-        "Instantly analyze the trustworthiness of any link with Neith. Protect yourself from suspicious links and online scams.",
-    },
-    {
-      name: "viewport",
-      content: "width=device-width, initial-scale=1",
-    },
-    {
-      property: "og:title",
-      content: "Check if a link is safe | Neith",
-    },
-    {
-      property: "og:description",
-      content: "Instantly analyze the trustworthiness of any link with Neith.",
-    },
-    {
-      property: "og:type",
-      content: "website",
-    },
-  ],
-});
-</script>
