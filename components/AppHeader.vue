@@ -39,6 +39,14 @@ const toggleMobileMenu = () => {
         <NuxtLink v-for="(link, i) in links" :key="i" :to="link.path">
           {{ link.name }}
         </NuxtLink>
+        <!-- v-model="$i18n.locale" -->
+        <select
+          aria-label="Change language"
+          class="border border-gray-300 rounded-lg px-2 py-1 focus:outline-none"
+        >
+          <option value="en">EN</option>
+          <option value="fr">FR</option>
+        </select>
         <button
           class="w-[86px] h-[40px] rounded-full flex items-center justify-center bg-gray-300 cursor-pointer text-[14px] font-bold text-[#0D141C]"
           aria-label="Log In"
@@ -50,10 +58,9 @@ const toggleMobileMenu = () => {
       <!-- Mobile hamburger -->
       <button
         class="md:hidden flex items-center justify-center p-2 cursor-pointer"
-        aria-label="Ouvrir le menu de navigation"
-        @click="toggleMobileMenu"
-        :aria-expanded="mobileMenuOpen.toString()"
+        aria-label="Show mobile menu"
         aria-controls="menu-mobile"
+        @click="toggleMobileMenu"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -78,16 +85,16 @@ const toggleMobileMenu = () => {
     <div
       v-if="mobileMenuOpen"
       class="fixed inset-0 bg-[#18181878] z-40 lg:hidden"
-      @click="toggleMobileMenu"
       aria-hidden="true"
+      @click="toggleMobileMenu"
     ></div>
 
     <nav
+      v-if="mobileMenuOpen"
       id="menu-mobile"
       class="fixed top-0 right-0 z-50 w-64 h-full ml-auto bg-white flex flex-col p-6 space-y-4 shadow-lg transform transition-transform duration-300 ease-in-out"
       :class="mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'"
       aria-label="Menu mobile"
-      v-if="mobileMenuOpen"
     >
       <button
         class="self-end mb-4 cursor-pointer"
@@ -122,6 +129,13 @@ const toggleMobileMenu = () => {
       >
         {{ link.name }}
       </NuxtLink>
+      <select
+        aria-label="Change language"
+        class="border border-gray-300 rounded-lg px-2 py-1 focus:outline-none"
+      >
+        <option value="en">EN</option>
+        <option value="fr">FR</option>
+      </select>
       <button
         class="w-full h-[40px] rounded-full flex items-center justify-center bg-[#E8EDF5] cursor-pointer text-[16px] font-bold text-[#0D141C] mt-4"
         aria-label="Log In"

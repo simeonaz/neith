@@ -95,9 +95,9 @@ useHead({
       <!-- input -->
       <form
         class="relative w-full"
-        @submit.prevent="handleSubmit"
         autocomplete="off"
         aria-label="Check a link form"
+        @submit.prevent="handleSubmit"
       >
         <button
           class="absolute left-3 inset-y-0 cursor-pointer"
@@ -142,10 +142,10 @@ useHead({
         <button
           v-if="linkToCheck"
           type="button"
-          class="absolute right-3 inset-y-0 flex items-center justify-center text-[#4F7396] focus:outline-none cursor-pointer"
-          @click="linkToCheck = ''"
           aria-label="Clear input"
           tabindex="0"
+          class="absolute right-3 inset-y-0 flex items-center justify-center text-[#4F7396] focus:outline-none cursor-pointer"
+          @click="linkToCheck = ''"
         >
           <svg
             width="20"
@@ -175,8 +175,8 @@ useHead({
         <button
           class="bg-[#1A80E5] text-[#F7FAFC] h-[40px] w-[104px] flex items-center justify-center rounded-[12px] text-[14px] font-bold tracking-[0px] leading-[21px] cursor-pointer mt-6"
           :disabled="loading"
-          @click="handleSubmit"
           aria-label="Check link"
+          @click="handleSubmit"
         >
           Check link
         </button>
