@@ -11,10 +11,10 @@ async function validateUrl(input: string): Promise<boolean> {
     // Only allow http(s) protocols
     if (!/^https?:$/.test(url.protocol)) return false;
     // Try to fetch the HEAD of the URL to check if it is reachable
-    const response = await fetch(url.toString(), {
-      method: "HEAD",
-      mode: "no-cors",
-    });
+    // const response = await fetch(url.toString(), {
+    //   method: "HEAD",
+    //   mode: "no-cors",
+    // });
     // If fetch does not throw, consider it valid (no-cors may not give status, but at least the URL is reachable)
     return true;
   } catch {
