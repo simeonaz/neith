@@ -32,12 +32,6 @@ const openLink = (url, status) => {
   }
 };
 
-const confirmOpen = () => {
-  window.open(pendingUrl.value, "_blank");
-  showModal.value = false;
-  pendingUrl.value = "";
-};
-
 const cancelOpen = () => {
   showModal.value = false;
   pendingUrl.value = "";
@@ -47,10 +41,10 @@ const cancelOpen = () => {
 <template>
   <li
     class="w-full h-[80px] flex items-center justify-between cursor-pointer"
-    @click="openLink(verifiedLink.url, verifiedLink.status)"
     role="listitem"
     tabindex="0"
     :aria-label="`Link: ${verifiedLink.url}, status: ${verifiedLink.status}`"
+    @click="openLink(verifiedLink.url, verifiedLink.status)"
     @keyup.enter="openLink(verifiedLink.url, verifiedLink.status)"
   >
     <div class="flex items-center space-x-[8px]">
@@ -149,9 +143,9 @@ const cancelOpen = () => {
     <div class="flex items-center justify-center">
       <button
         class="p-0 bg-transparent border-0"
-        @click.stop="openLink(verifiedLink.url, verifiedLink.status)"
         :aria-label="`Open link: ${verifiedLink.url}`"
         tabindex="0"
+        @click.stop="openLink(verifiedLink.url, verifiedLink.status)"
       >
         <svg
           width="28"
@@ -204,12 +198,12 @@ const cancelOpen = () => {
   >
     <div class="bg-white rounded-lg p-6 max-w-xs w-full shadow-lg text-center">
       <div
+        id="modal-title"
         class="mb-4 text-lg font-semibold"
         :class="{
           'text-[#FACC15]': verifiedLink.status === 'Suspicious',
           'text-[#EF4444]': verifiedLink.status === 'Dangerous',
         }"
-        id="modal-title"
       >
         {{
           verifiedLink.status === "Suspicious"
@@ -217,7 +211,7 @@ const cancelOpen = () => {
             : "Dangerous link"
         }}
       </div>
-      <div class="mb-6 text-sm text-gray-700" id="modal-desc">
+      <div id="modal-desc" class="mb-6 text-sm text-gray-700">
         This link is marked as
         <span
           :class="{
@@ -235,8 +229,8 @@ const cancelOpen = () => {
       <div class="flex justify-center gap-4">
         <button
           class="px-4 py-2 rounded bg-gray-200 text-gray-800 font-medium cursor-pointer"
-          @click="cancelOpen"
           aria-label="Cancel and close dialog"
+          @click="cancelOpen"
         >
           Cancel
         </button>
@@ -251,8 +245,7 @@ const cancelOpen = () => {
             'bg-[#EF4444]': verifiedLink.status === 'Dangerous',
             'bg-[#FACC15]': verifiedLink.status === 'Suspicious',
           }"
-          @click.stop
-          aria-label="Continue and open link"
+          @click.stop="showModal = false"
         >
           Continue
         </a>
