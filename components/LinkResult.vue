@@ -24,6 +24,11 @@ const openLink = (url, status) => {
   } else {
     pendingUrl.value = url;
     showModal.value = true;
+    // Focus the first button in the modal for accessibility
+    setTimeout(() => {
+      const btn = document.getElementById("modal-continue-btn");
+      if (btn) btn.focus();
+    }, 0);
   }
 };
 
@@ -40,10 +45,18 @@ const cancelOpen = () => {
 </script>
 
 <template>
-  <div class="w-full h-[80px] flex items-center justify-between">
+  <li
+    class="w-full h-[80px] flex items-center justify-between cursor-pointer"
+    @click="openLink(verifiedLink.url, verifiedLink.status)"
+    role="listitem"
+    tabindex="0"
+    :aria-label="`Link: ${verifiedLink.url}, status: ${verifiedLink.status}`"
+    @keyup.enter="openLink(verifiedLink.url, verifiedLink.status)"
+  >
     <div class="flex items-center space-x-[8px]">
       <div
         class="bg-[#E8EDF2] size-[48px] flex items-center justify-center rounded-[8px]"
+        aria-hidden="true"
       >
         <svg
           v-if="verifiedLink.status === 'Safe'"
@@ -52,6 +65,8 @@ const cancelOpen = () => {
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          aria-label="Safe link icon"
+          focusable="false"
         >
           <path
             fill-rule="evenodd"
@@ -67,6 +82,8 @@ const cancelOpen = () => {
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          aria-label="Suspicious link icon"
+          focusable="false"
         >
           <g clip-path="url(#clip0_33_56)">
             <path
@@ -90,6 +107,8 @@ const cancelOpen = () => {
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          aria-label="Dangerous link icon"
+          focusable="false"
         >
           <g clip-path="url(#clip0_33_72)">
             <path
@@ -120,6 +139,7 @@ const cancelOpen = () => {
             'text-[#FACC15]': verifiedLink.status === 'Suspicious',
             'text-[#EF4444]': verifiedLink.status === 'Dangerous',
           }"
+          :aria-label="`Status: ${verifiedLink.status}`"
         >
           {{ verifiedLink?.status }}
         </div>
@@ -127,47 +147,60 @@ const cancelOpen = () => {
     </div>
 
     <div class="flex items-center justify-center">
-      <svg
-        width="28"
-        height="28"
-        viewBox="0 0 28 28"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        class="cursor-pointer"
-        @click="openLink(verifiedLink.url, verifiedLink.status)"
+      <button
+        class="p-0 bg-transparent border-0"
+        @click.stop="openLink(verifiedLink.url, verifiedLink.status)"
+        :aria-label="`Open link: ${verifiedLink.url}`"
+        tabindex="0"
       >
-        <g clip-path="url(#clip0_33_64)">
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M22.7806 14.5306L16.0306 21.2806C15.7376 21.5737 15.2624 21.5737 14.9694 21.2806C14.6763 20.9876 14.6763 20.5124 14.9694 20.2194L20.4397 14.75H5.75C5.33579 14.75 5 14.4142 5 14C5 13.5858 5.33579 13.25 5.75 13.25H20.4397L14.9694 7.78062C14.6763 7.48757 14.6763 7.01243 14.9694 6.71938C15.2624 6.42632 15.7376 6.42632 16.0306 6.71938L22.7806 13.4694C22.9215 13.6101 23.0006 13.8009 23.0006 14C23.0006 14.1991 22.9215 14.3899 22.7806 14.5306Z"
-            :fill="
-              verifiedLink.status === 'Safe'
-                ? '#22C55E'
-                : verifiedLink.status === 'Suspicious'
-                  ? '#FACC15'
-                  : '#EF4444'
-            "
-          />
-        </g>
-        <defs>
-          <clipPath id="clip0_33_64">
-            <rect
-              width="24"
-              height="24"
-              fill="white"
-              transform="translate(2 2)"
+        <svg
+          width="28"
+          height="28"
+          viewBox="0 0 28 28"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          class="cursor-pointer"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <g clip-path="url(#clip0_33_64)">
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M22.7806 14.5306L16.0306 21.2806C15.7376 21.5737 15.2624 21.5737 14.9694 21.2806C14.6763 20.9876 14.6763 20.5124 14.9694 20.2194L20.4397 14.75H5.75C5.33579 14.75 5 14.4142 5 14C5 13.5858 5.33579 13.25 5.75 13.25H20.4397L14.9694 7.78062C14.6763 7.48757 14.6763 7.01243 14.9694 6.71938C15.2624 6.42632 15.7376 6.42632 16.0306 6.71938L22.7806 13.4694C22.9215 13.6101 23.0006 13.8009 23.0006 14C23.0006 14.1991 22.9215 14.3899 22.7806 14.5306Z"
+              :fill="
+                verifiedLink.status === 'Safe'
+                  ? '#22C55E'
+                  : verifiedLink.status === 'Suspicious'
+                    ? '#FACC15'
+                    : '#EF4444'
+              "
             />
-          </clipPath>
-        </defs>
-      </svg>
+          </g>
+          <defs>
+            <clipPath id="clip0_33_64">
+              <rect
+                width="24"
+                height="24"
+                fill="white"
+                transform="translate(2 2)"
+              />
+            </clipPath>
+          </defs>
+        </svg>
+      </button>
     </div>
-  </div>
+  </li>
 
   <!-- Modal -->
   <div
     v-if="showModal"
     class="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(0,0,0,0.5)]"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-title"
+    aria-describedby="modal-desc"
+    tabindex="-1"
   >
     <div class="bg-white rounded-lg p-6 max-w-xs w-full shadow-lg text-center">
       <div
@@ -176,6 +209,7 @@ const cancelOpen = () => {
           'text-[#FACC15]': verifiedLink.status === 'Suspicious',
           'text-[#EF4444]': verifiedLink.status === 'Dangerous',
         }"
+        id="modal-title"
       >
         {{
           verifiedLink.status === "Suspicious"
@@ -183,7 +217,7 @@ const cancelOpen = () => {
             : "Dangerous link"
         }}
       </div>
-      <div class="mb-6 text-sm text-gray-700">
+      <div class="mb-6 text-sm text-gray-700" id="modal-desc">
         This link is marked as
         <span
           :class="{
@@ -202,19 +236,26 @@ const cancelOpen = () => {
         <button
           class="px-4 py-2 rounded bg-gray-200 text-gray-800 font-medium cursor-pointer"
           @click="cancelOpen"
+          aria-label="Cancel and close dialog"
         >
           Cancel
         </button>
-        <button
+        <a
+          id="modal-continue-btn"
+          :href="verifiedLink.url"
+          target="_blank"
+          rel="noopener noreferrer"
+          :aria-label="`Open link: ${verifiedLink.url}`"
           class="px-4 py-2 rounded text-white font-medium cursor-pointer"
           :class="{
             'bg-[#EF4444]': verifiedLink.status === 'Dangerous',
             'bg-[#FACC15]': verifiedLink.status === 'Suspicious',
           }"
-          @click="confirmOpen"
+          @click.stop
+          aria-label="Continue and open link"
         >
           Continue
-        </button>
+        </a>
       </div>
     </div>
   </div>

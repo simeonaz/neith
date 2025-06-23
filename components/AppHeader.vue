@@ -14,6 +14,10 @@ const toggleMobileMenu = () => {
 <template>
   <header
     class="fixed top-0 inset-x-0 h-[55px] lg:h-[65px] bg-white text-[#0D141C] z-50"
+    role="banner"
+    aria-label="Header"
+    aria-hidden="true"
+    aria-controls="menu-mobile"
   >
     <div
       class="max-w-screen-xl mx-auto flex justify-between items-center px-[25px] lg:px-[40px] h-full"
@@ -28,24 +32,28 @@ const toggleMobileMenu = () => {
       </div>
 
       <!-- Desktop links -->
-      <div
+      <nav
         class="hidden md:flex items-center space-x-[36px] text-[14px] leading-[0px] tracking-[0px] font-medium"
+        aria-label="Navigation principale"
       >
         <NuxtLink v-for="(link, i) in links" :key="i" :to="link.path">
           {{ link.name }}
         </NuxtLink>
         <button
           class="w-[86px] h-[40px] rounded-full flex items-center justify-center bg-gray-300 cursor-pointer text-[14px] font-bold text-[#0D141C]"
+          aria-label="Log In"
         >
           Log In
         </button>
-      </div>
+      </nav>
 
       <!-- Mobile hamburger -->
       <button
         class="md:hidden flex items-center justify-center p-2 cursor-pointer"
-        aria-label="Open menu"
+        aria-label="Ouvrir le menu de navigation"
         @click="toggleMobileMenu"
+        :aria-expanded="mobileMenuOpen.toString()"
+        aria-controls="menu-mobile"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -71,15 +79,19 @@ const toggleMobileMenu = () => {
       v-if="mobileMenuOpen"
       class="fixed inset-0 bg-[#18181878] z-40 lg:hidden"
       @click="toggleMobileMenu"
+      aria-hidden="true"
     ></div>
 
     <nav
+      id="menu-mobile"
       class="fixed top-0 right-0 z-50 w-64 h-full ml-auto bg-white flex flex-col p-6 space-y-4 shadow-lg transform transition-transform duration-300 ease-in-out"
       :class="mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'"
+      aria-label="Menu mobile"
+      v-if="mobileMenuOpen"
     >
       <button
         class="self-end mb-4 cursor-pointer"
-        aria-label="Close menu"
+        aria-label="Fermer le menu de navigation"
         @click="toggleMobileMenu"
       >
         <svg width="28" height="28" fill="none" viewBox="0 0 24 24">
@@ -112,6 +124,7 @@ const toggleMobileMenu = () => {
       </NuxtLink>
       <button
         class="w-full h-[40px] rounded-full flex items-center justify-center bg-[#E8EDF5] cursor-pointer text-[16px] font-bold text-[#0D141C] mt-4"
+        aria-label="Log In"
       >
         Log In
       </button>

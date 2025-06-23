@@ -4,9 +4,18 @@ const loading = ref(false);
 const showError = ref(false);
 const verifiedLinks = ref([]);
 
-function validateUrl(input: string): boolean {
+// Enhanced URL validation: checks format and if the link is reachable
+async function validateUrl(input: string): Promise<boolean> {
   try {
-    new URL(input);
+    const url = new URL(input);
+    // Only allow http(s) protocols
+    if (!/^https?:$/.test(url.protocol)) return false;
+    // Try to fetch the HEAD of the URL to check if it is reachable
+    const response = await fetch(url.toString(), {
+      method: "HEAD",
+      mode: "no-cors",
+    });
+    // If fetch does not throw, consider it valid (no-cors may not give status, but at least the URL is reachable)
     return true;
   } catch {
     return false;
@@ -15,20 +24,21 @@ function validateUrl(input: string): boolean {
 
 const handleSubmit = async () => {
   showError.value = false;
-  if (
-    linkToCheck.value &&
-    linkToCheck.value.trim() !== "" &&
-    validateUrl(linkToCheck.value.trim())
-  ) {
+  if (linkToCheck.value && linkToCheck.value.trim() !== "") {
     loading.value = true;
     try {
+      const isValid = await validateUrl(linkToCheck.value.trim());
+      if (!isValid) {
+        showError.value = true;
+        loading.value = false;
+        return;
+      }
       const { data } = await useFetch("/api/verify", {
         method: "POST",
         body: {
           url: linkToCheck.value.trim(),
         },
       });
-      // Place data.value at the beginning of the array
       verifiedLinks.value.unshift(data.value);
     } catch (error: unknown) {
       showError.value = true;
@@ -38,19 +48,61 @@ const handleSubmit = async () => {
     }
   } else {
     showError.value = true;
-    console.error("Please enter a valid URL.");
+    console.error("Please enter a valid and reachable URL.");
   }
 };
+
+// SEO for the verify page
+useHead({
+  title: "Check a link | Neith",
+  meta: [
+    {
+      name: "description",
+      content:
+        "Verify if a link is safe and reachable with Neith. Instantly check the trustworthiness and accessibility of any URL.",
+    },
+    {
+      name: "viewport",
+      content: "width=device-width, initial-scale=1",
+    },
+    {
+      property: "og:title",
+      content: "Check a link | Neith",
+    },
+    {
+      property: "og:description",
+      content:
+        "Verify if a link is safe and reachable with Neith. Instantly check the trustworthiness and accessibility of any URL.",
+    },
+    {
+      property: "og:type",
+      content: "website",
+    },
+  ],
+});
 </script>
 
 <template>
-  <main class="px-[20px] md:px-[40px] lg:px-[160px] py-[20px] flex flex-col">
-    <div class="p-8 lg:p-[32px] flex flex-col">
+  <main
+    class="px-[20px] md:px-[40px] lg:px-[160px] py-[20px] flex flex-col"
+    role="main"
+    aria-label="Main content"
+  >
+    <section
+      class="p-8 lg:p-[32px] flex flex-col"
+      aria-labelledby="verify-link-title"
+    >
       <!-- input -->
-      <div class="relative w-full">
+      <form
+        class="relative w-full"
+        @submit.prevent="handleSubmit"
+        autocomplete="off"
+        aria-label="Check a link form"
+      >
         <button
           class="absolute left-3 inset-y-0 cursor-pointer"
-          @click="handleSubmit"
+          type="submit"
+          aria-label="Submit link for verification"
         >
           <svg
             width="24"
@@ -58,6 +110,7 @@ const handleSubmit = async () => {
             viewBox="0 0 24 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
           >
             <g clip-path="url(#clip0_33_26)">
               <path
@@ -82,21 +135,25 @@ const handleSubmit = async () => {
           class="w-full bg-[#E8EDF2] h-[48px] flex items-center pl-12 pr-16 focus:outline-none rounded-[8px] text-[16px] font-normal tracking-[0px] leading-[24px] text-[#0D141C] placeholder:text-[#4F7396]"
           placeholder="Paste link here"
           required
+          aria-required="true"
+          aria-label="Paste link here"
           @keyup.enter="handleSubmit"
         />
         <div
           v-if="showError === true"
           class="absolute left-0 top-full mt-2 text-red-500 text-sm"
+          role="alert"
         >
-          <p>Please enter a valid url.</p>
+          <p>Please enter a valid and reachable URL.</p>
         </div>
-      </div>
+      </form>
 
       <div class="flex items-center justify-center">
         <button
           class="bg-[#1A80E5] text-[#F7FAFC] h-[40px] w-[104px] flex items-center justify-center rounded-[12px] text-[14px] font-bold tracking-[0px] leading-[21px] cursor-pointer mt-6"
           :disabled="loading"
           @click="handleSubmit"
+          aria-label="Check link"
         >
           Check link
         </button>
@@ -104,14 +161,20 @@ const handleSubmit = async () => {
 
       <!-- Title -->
       <div class="flex py-[20px]">
-        <h3 class="text-[#0D141C] text-[18px] font-bold">Result</h3>
+        <h2 id="verify-link-title" class="text-[#0D141C] text-[18px] font-bold">
+          Result
+        </h2>
       </div>
 
       <!-- Result -->
-      <div v-if="loading" class="flex items-center justify-center">
+      <section
+        v-if="loading"
+        class="flex items-center justify-center"
+        aria-live="polite"
+      >
         <LdrsRingLoader />
-      </div>
-      <div v-else>
+      </section>
+      <section v-else aria-live="polite">
         <div
           v-if="verifiedLinks.length === 0"
           class="flex items-center justify-center"
@@ -121,14 +184,14 @@ const handleSubmit = async () => {
           </p>
         </div>
 
-        <div v-else>
+        <ul v-else>
           <LinkResult
             v-for="(link, i) in verifiedLinks"
             :key="i"
             :verified-link="link"
           />
-        </div>
-      </div>
-    </div>
+        </ul>
+      </section>
+    </section>
   </main>
 </template>
