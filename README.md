@@ -1,6 +1,13 @@
-# Nuxt Minimal Starter
+# Neith
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Neith is a lightweight web application designed to help users determine whether a link is suspicious, dangerous, or trustworthy. With a minimal and intuitive interface, Neith provides quick and reliable link analysis to enhance your online safety.
+
+## Features
+
+- **Instant Link Verification:** Check if a URL is safe, suspicious, or potentially harmful.
+- **User-Friendly Interface:** Minimalist design for fast and easy use.
+- **Multilingual Support:** Available in English and French.
+- **Privacy-Focused:** No unnecessary data collection.
 
 ## Setup
 
@@ -71,5 +78,3 @@ yarn preview
 # bun
 bun run preview
 ```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
